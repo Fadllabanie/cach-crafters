@@ -18,5 +18,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/login/{provider}', [AuthController::class,'redirectToProvider']);
+Route::get('/login/{provider}/callback', [AuthController::class,'handleProviderCallback']);
+
 
 
