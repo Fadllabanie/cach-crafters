@@ -12,39 +12,46 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    public function getFillable()
+    {
+        return [
+            'name',
+            'email',
+            'password',
+            'email_verified_at',
+            'avatar',
+            'phone',
+            'currency',
+            'remember_token',
+        ];
+    }
+
+    public function getFillableType()
+    {
+        return [
+            'name' => 'string',
+            'email' => 'email',
+            'password' => 'password',
+            'email_verified_at' => 'date',
+            'avatar' => 'string',
+            'phone' => 'string',
+            'currency' => 'string',
+            'remember_token' => 'token',
+        ];
+    }
+
     protected $fillable = [
         'name',
         'email',
         'password',
+        'phone',
+        'avatar',
+        'currency',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
 
     public function authProviders()
     {
-        return $this->hasMany(AuthProvider::class,'user_id','id');
+        return $this->hasMany(AuthProvider::class, 'user_id', 'id');
     }
 }
