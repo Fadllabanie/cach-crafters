@@ -11,7 +11,7 @@ class StoreIncomeRequest extends FormRequest
    */
   public function authorize(): bool
   {
-    return false;
+    return true;
   }
 
   /**
@@ -22,7 +22,6 @@ class StoreIncomeRequest extends FormRequest
   public function rules()
   {
     return array(
-      'user_id' => 'required|belongsTo',
       'source_id' => 'required|belongsTo',
       'amount' => 'required|float',
       'date' => 'required|datetime',

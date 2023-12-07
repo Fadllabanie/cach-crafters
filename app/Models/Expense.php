@@ -46,4 +46,10 @@ class Expense extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+
+    public function scopeMine($query)
+    {
+        return $query->where('user_id', auth()->id());
+    }
 }
