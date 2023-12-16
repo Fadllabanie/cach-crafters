@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Api\Transactions;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserRequest extends FormRequest
+class StoreTransactionRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -22,10 +22,10 @@ class UpdateUserRequest extends FormRequest
   public function rules()
   {
     return array(
-      'name' => 'required|string',
-      'avatar' => 'required|string',
-      'currency' => 'required|string',
-      'gender' => 'required',
+      'source_id' => 'required',
+      'type' => 'required',
+      'amount' => 'required',
+      'transaction_date' => 'required|date',
     );
   }
 }

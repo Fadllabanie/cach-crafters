@@ -18,6 +18,7 @@ class UserFactory extends Factory
             'password' => $this->faker->password,
             'email_verified_at' =>  \Carbon\Carbon::now()->format('Y-m-d H:i:s'),
             'avatar' => $this->faker->word,
+            'gender' => $this->faker->randomElement(['male', 'female']),
             'phone' => $this->faker->word,
             'currency' => '$',
             'remember_token' => \Illuminate\Support\Str::random(60),

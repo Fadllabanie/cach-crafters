@@ -22,6 +22,7 @@ class UserTest extends TestCase
         $this->assertNotNull($model);
         $this->assertEquals($data['name'], $model->name);
         $this->assertEquals($data['email'], $model->email);
+        $this->assertEquals($data['gender'], $model->gender);
         $this->assertEquals($data['email_verified_at'], $model->email_verified_at);
         $this->assertEquals($data['password'], $model->password);
         $this->assertEquals($data['avatar'], $model->avatar);
@@ -41,6 +42,7 @@ class UserTest extends TestCase
         $this->assertEquals($originalData['email_verified_at'], $retrievedModel->email_verified_at);
         $this->assertEquals($originalData['password'], $retrievedModel->password);
         $this->assertEquals($originalData['avatar'], $retrievedModel->avatar);
+        $this->assertEquals($originalData['gender'], $retrievedModel->gender);
         $this->assertEquals($originalData['phone'], $retrievedModel->phone);
         $this->assertEquals($originalData['currency'], $retrievedModel->currency);
         $this->assertEquals($originalData['remember_token'], $retrievedModel->remember_token);
@@ -57,6 +59,7 @@ class UserTest extends TestCase
             'password' => '$2y$12$.Xg17La/qWQS6p.qr7zKaewTc0aO11OBZYlet28dHaorzwStfQ1Su',
             'avatar' => 'aut',
             'phone' => 'illo',
+            'gender' => 'male',
             'currency' => 'qui',
             'remember_token' => 'xX4CZiVIDthuRPijsvrb7LIgwoow7hXwmgRDF4cZPQR4zeU4sqI9g7lN1Cvq',
         );
@@ -73,6 +76,7 @@ class UserTest extends TestCase
         $this->assertEquals($model['email_verified_at'], $updatedModel->email_verified_at);
         $this->assertEquals($model['password'], $updatedModel->password);
         $this->assertEquals($model['avatar'], $updatedModel->avatar);
+        $this->assertEquals($model['gender'], $updatedModel->gender);
         $this->assertEquals($model['phone'], $updatedModel->phone);
         $this->assertEquals($model['currency'], $updatedModel->currency);
         $this->assertEquals($model['remember_token'], $updatedModel->remember_token);
