@@ -16,9 +16,9 @@ class GeneralController extends Controller
         return $this->executeCrudOperation(function () use ($action) {
             $models = $action->execute();
             return response()->json($models);
-        }, 'index');
-    } 
-    
+        }, 'getSource');
+    }
+
     public function getCurrency(GetCurrencyAction $action)
     {
         return $this->executeCrudOperation(function () use ($action) {

@@ -108,6 +108,8 @@ return [
     | localized telephone numbers, street address information and more.
     |
     */
+    'supported_languages' => ['en' => 'English', 'ar' => 'Arabic'],
+
 
     'faker_locale' => 'en_US',
 

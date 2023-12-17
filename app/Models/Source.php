@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Services\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Source extends Model
 {
-    use HasFactory;
+    use HasFactory,Translatable;
     
+
     public function getFillable()
     {
         return [
@@ -26,4 +28,8 @@ class Source extends Model
             'icon' => 'string',
         ];
     }
+
+    protected $translatedAttributes = [
+        'name'
+    ];
 }

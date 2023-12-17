@@ -10,18 +10,20 @@ use App\Actions\Transactions\DeleteTransactionAction;
 use App\Actions\Transactions\GetAllTransactionAction;
 use App\Actions\Transactions\GetTransactionAction;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\Transactions\TransactionResource;
 use App\Models\Transaction;
 use App\Traits\HandlesErrors;
+use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
     use HandlesErrors;
 
-    public function index(GetAllTransactionAction $action)
+    public function index(Request $request, GetAllTransactionAction $action)
     {
-        return $this->executeCrudOperation(function () use ($action) {
-            $models = $action->execute();
-            return response()->json($models);
+        return $this->executeCrudOperation(function () use ($action, $request) {
+            $models = $action->execute($request);
+            return response()->json(TransactionResource::collection($models));
         }, 'index');
     }
 

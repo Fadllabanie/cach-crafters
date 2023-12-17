@@ -8,6 +8,7 @@ use App\Actions\Profiles\UserProfileAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Resources\Api\Users\UserResource;
 use App\Traits\HandlesErrors;
 use Illuminate\Http\Request;
 
@@ -19,7 +20,7 @@ class AuthController extends Controller
     {
         return $this->executeCrudOperation(function () use ($request, $action) {
             $model = $action->execute($request->validated());
-            return response()->json($model, 201);
+            return response()->json(UserResource::make($model), 201);
         }, 'register');
     }
 
@@ -28,7 +29,7 @@ class AuthController extends Controller
         return $this->executeCrudOperation(function () use ($request, $action) {
             $model = $action->execute($request->validated());
             return response()->json([
-                'user' => $model,
+                'user' => UserResource::make($model),
             ], 201);
         }, 'login');
     }

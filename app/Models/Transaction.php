@@ -49,6 +49,15 @@ class Transaction extends Model
         return $query->where('user_id', auth()->id());
     }
 
+    public function scopeOfMonth($query, $month)
+    {
+        if ($month) {
+            $query->whereYear('transaction_date', '=', date('Y', strtotime($month)))
+                ->whereMonth('transaction_date', '=', date('m', strtotime($month)));
+        }
+        return $query;
+    }
+
     // public static function getStatistics($userId, $timeFrame = 'month', $type = 'expense')
     // {
     //     // Filter by time frame (day, week, month, year)
