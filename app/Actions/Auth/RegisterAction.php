@@ -13,7 +13,7 @@ class RegisterAction
             'email' => $data['email'],
             'phone' => $data['phone'],
             'password' =>  bcrypt($data['password']),
-            'avatar' => 'avatar.png',
+            'avatar' => randomAvatar(),
             'currency' => '$',
         ]);
 
@@ -22,7 +22,7 @@ class RegisterAction
         $user->update([
             'remember_token' => $token->plainTextToken
         ]);
-        
+
         return  $user;
     }
 }

@@ -49,5 +49,6 @@ Route::prefix('v1')->group(function () {
 
         Route::get('categories', [CategoryController::class, 'index']);
         Route::get('sources', [SourceController::class, 'index']);
+        Route::get('currencies', [GeneralController::class, 'getCurrency']);
     });
 });
