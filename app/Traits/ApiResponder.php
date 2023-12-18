@@ -25,7 +25,7 @@ trait ApiResponder
      */
     public function getSuccess()
     {
-        return $this->success;
+        return (bool) $this->success;
     }
     /**
      * Getter for statusCode
@@ -34,7 +34,7 @@ trait ApiResponder
      */
     public function getFailure()
     {
-        return $this->failure;
+        return (bool) $this->failure;
     }
 
     /**
@@ -119,13 +119,13 @@ trait ApiResponder
 
 
 
-    public function respondCreated($message = 'Resource created successfully')
+    public function respondCreated($data,$message = 'Resource created successfully')
     {
         return $this->setStatusCode(201)
             ->respond([
                 'status' => $this->getSuccess(),
                 'message' => $message,
-                //'data' => $data,
+                'data' => $data,
 
             ]);
     }

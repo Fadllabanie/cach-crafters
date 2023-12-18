@@ -23,7 +23,7 @@ class TransactionController extends Controller
     {
         return $this->executeCrudOperation(function () use ($action, $request) {
             $models = $action->execute($request);
-            return response()->json(TransactionResource::collection($models));
+            return $this->respondWithCollection(TransactionResource::collection($models));
         }, 'index');
     }
 
@@ -31,7 +31,7 @@ class TransactionController extends Controller
     {
         return $this->executeCrudOperation(function () use ($request, $action) {
             $model = $action->execute($request->validated());
-            return response()->json($model, 201);
+            return $this->respondCreated(TransactionResource::make($model));
         }, 'store');
     }
 
@@ -40,10 +40,9 @@ class TransactionController extends Controller
         return $this->executeCrudOperation(function () use ($id, $action) {
             $model = $action->execute($id);
             if (!$model) {
-                return response()->json(['error' => 'Not Found'], 404);
+                return $this->errorNotFound('Not Found');
             }
-
-            return response()->json($model);
+            return $this->respondWithItem(TransactionResource::make($model));
         }, 'show');
     }
 
@@ -52,7 +51,7 @@ class TransactionController extends Controller
         return $this->executeCrudOperation(function () use ($request, $id, $action) {
             $model = Transaction::findOrFail($id);
             $action->execute($model, $request->validated());
-            return response()->json($model);
+            return $this->respondCreated(TransactionResource::make($model));
         }, 'update');
     }
 
@@ -61,7 +60,7 @@ class TransactionController extends Controller
         return $this->executeCrudOperation(function () use ($id, $action) {
             $model = Transaction::findOrFail($id);
             $action->execute($model);
-            return response()->json(null, 204);
+            return $this->successStatus();
         }, 'destroy');
     }
 }

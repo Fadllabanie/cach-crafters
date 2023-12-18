@@ -2,6 +2,7 @@
 
 namespace App\Actions\Home;
 
+use App\Http\Resources\Api\Transactions\TransactionResource;
 use App\Models\Transaction;
 
 class HomeAction
@@ -11,7 +12,8 @@ class HomeAction
 
         $data['balance']  = Transaction::getSummary(auth()->id());
 
-        $data['transactions']  = Transaction::with('source')->mine()->orderByDESC('id')->take(4)->get();
+        $transactions  = Transaction::with('source')->mine()->orderByDESC('id')->take(4)->get();
+        $data['transactions']  =  TransactionResource::collection($transactions);
 
         return $data;
     }

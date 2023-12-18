@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Resources\Api\Transactions\TransactionResource;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,7 +20,7 @@ class Transaction extends Model
             'source_id',
             'type',
             'amount',
-            'transaction_date',
+            'transactionDate',
         ];
     }
 
@@ -30,7 +31,7 @@ class Transaction extends Model
             'source_id' => 'belongsTo',
             'type' => 'float',
             'amount' => 'float',
-            'transaction_date' => 'date',
+            'transactionDate' => 'date',
         ];
     }
 
@@ -52,8 +53,8 @@ class Transaction extends Model
     public function scopeOfMonth($query, $month)
     {
         if ($month) {
-            $query->whereYear('transaction_date', '=', date('Y', strtotime($month)))
-                ->whereMonth('transaction_date', '=', date('m', strtotime($month)));
+            $query->whereYear('transactionDate', '=', date('Y', strtotime($month)))
+                ->whereMonth('transactionDate', '=', date('m', strtotime($month)));
         }
         return $query;
     }
@@ -67,20 +68,20 @@ class Transaction extends Model
     //     // Query for total expenses/income over time
     //     $stats = self::select(
     //         DB::raw('SUM(amount) as total'),
-    //         DB::raw('DATE(transaction_date) as date')
+    //         DB::raw('DATE(transactionDate) as date')
     //     )
     //         ->where('user_id', $userId)
     //         ->where('type', $type)
-    //         ->whereBetween('transaction_date', [$startDate, $endDate])
+    //         ->whereBetween('transactionDate', [$startDate, $endDate])
     //         ->groupBy('date')
     //         ->orderBy('date')
     //         ->get();
 
     //     // Query for top spending items
-    //     $topSpending = self::select('source_id', 'amount', 'transaction_date')
+    //     $topSpending = self::select('source_id', 'amount', 'transactionDate')
     //         ->where('user_id', $userId)
     //         ->where('type', 'expense') // Assuming you only want expenses for top spending
-    //         ->whereBetween('transaction_date', [$startDate, $endDate])
+    //         ->whereBetween('transactionDate', [$startDate, $endDate])
     //         ->orderBy('amount', 'desc')
     //         ->limit(5) // Assuming you want the top 5
     //         ->get();
@@ -136,11 +137,11 @@ class Transaction extends Model
         // Query for statistics
         $stats = self::select(
             DB::raw("SUM(amount) as total"),
-            DB::raw("DATE_FORMAT(transaction_date, '{$dateFormat}') as formatted_date")
+            DB::raw("DATE_FORMAT(transactionDate, '{$dateFormat}') as formatted_date")
         )
             ->where('user_id', $userId)
             ->where('type', $type)
-            ->whereBetween('transaction_date', [$startDate, $endDate])
+            ->whereBetween('transactionDate', [$startDate, $endDate])
             ->groupBy('formatted_date')
             ->orderBy('formatted_date')
             ->get();
@@ -159,17 +160,18 @@ class Transaction extends Model
                 'total' => $stat->total,
             ];
         });
-        $topSpending = self::select('source_id', 'amount', 'transaction_date')
+        $topSpending = self::with('source')->select('id', 'source_id', 'type', 'amount', 'transactionDate', 'created_at')
             ->where('user_id', $userId)
-            ->where('type', 'expense') // Assuming you only want expenses for top spending
-            ->whereBetween('transaction_date', [$startDate, $endDate])
+            ->where('type', $type)
+            ->whereBetween('transactionDate', [$startDate, $endDate])
             ->orderBy('amount', 'desc')
             ->limit(5) // Assuming you want the top 5
             ->get();
 
         return [
             'stats' => $stats,
-            'topSpending' => $topSpending
+            'topSpending' => TransactionResource::collection($topSpending)
+
         ];
     }
 
@@ -179,7 +181,7 @@ class Transaction extends Model
         $endDate = now()->endOfMonth();
 
         $transactions = Transaction::where('user_id', $userId)
-            ->whereBetween('transaction_date', [$startDate, $endDate])
+            ->whereBetween('transactionDate', [$startDate, $endDate])
             ->get();
 
         $income = $transactions->where('type', 'income')->sum('amount');
@@ -191,5 +193,39 @@ class Transaction extends Model
             'income' => formatCurrencyNumber($income),
             'expenses' => formatCurrencyNumber($expenses)
         ];
+    }
+
+    public static function getMonthlyExpenseStats($userId, $month)
+    {
+
+        // First, get the total expenses for the month
+        $totalExpenses = Transaction::where('user_id', $userId)
+            ->where('type', 'expense')
+            ->whereMonth('transactionDate', '=', date('m', strtotime($month)))
+            ->whereYear('transactionDate', '=', date('Y', strtotime($month)))
+            ->sum('amount');
+
+            // Now, get the total expenses per source for the month
+        $expensesBySource = Transaction::with('source')
+            ->where('type', 'expense')
+            ->where('user_id', $userId)
+            ->whereMonth('transactionDate', '=', date('m', strtotime($month)))
+            ->whereYear('transactionDate', '=', date('Y', strtotime($month)))
+            ->select('source_id', DB::raw('SUM(amount) as total'))
+            ->groupBy('source_id')
+            ->get();
+           
+
+        // Calculate the percentage for each source
+        $expensesWithPercentages = $expensesBySource->map(function ($expense) use ($totalExpenses) {
+            return [
+                'source_name' => $expense->source->name, // or however you access the source name
+                'source_color' => $expense->source->color, // or however you access the source name
+                'total' => $expense->total,
+                'percentage' => $totalExpenses > 0 ? ($expense->total / $totalExpenses * 100) : 0,
+                // 'color' => '#' . substr(md5(rand()), 0, 6), // This will generate a random color
+            ];
+        });
+        return $expensesWithPercentages;
     }
 }

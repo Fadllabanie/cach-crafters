@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\Source;
 use App\Models\Transaction;
+use Database\Factories\SourceFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -16,8 +17,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Transaction::factory(1000)->create();
-        Source::factory(4)->create();
+        Transaction::factory(1000)->create();
+        // Source::factory(4)->create();
 
         // \App\Models\User::factory(10)->create();
 
@@ -136,5 +137,6 @@ class DatabaseSeeder extends Seeder
         //     ['code' => 'YER', 'name' => 'Yemeni Rial', 'symbol' => '﷼'],
         //     ['code' => 'ZAR', 'name' => 'Rand', 'symbol' => 'R'],
         // ]);
+        // $this->call(SourceSeeder::class);
     }
 }

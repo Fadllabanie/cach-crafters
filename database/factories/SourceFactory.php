@@ -12,14 +12,20 @@ class SourceFactory extends Factory
 
     public function definition()
     {
+
         $categoriesAr = ['منزل', 'ترفيه', 'طعام', 'سيارة'];
         $categoriesEn = ['Home', 'Entertainment', 'Food', 'Car'];
         $icons = ['house', 'game-controller', 'hamburger', 'car-side'];
+        $colors = ['#66c383', '#7003383', '#11c383', '#96c385'];
 
+
+
+        
         return [
             'name_ar' => $this->faker->randomElement($categoriesAr),
             'name_en' => $this->faker->randomElement($categoriesEn),
             'icon' => $this->faker->randomElement($icons),
+            'color' => $this->faker->randomElement($colors),
         ];
     }
 }

@@ -22,9 +22,9 @@ class TransactionResource extends JsonResource
                 'icon' => $this->source->icon,
             ],
             'type' => $this->type,
-            'amount' => $this->amount,
-            'transaction_date' => $this->transaction_date,
-            'created_at' => $this->created_at,
+            'amount' => formatCurrencyNumber($this->amount),
+            'transactionDate' => $this->transactionDate,
+            'created_at' => date_format($this->created_at, 'Y-m-d h:i:s'),
         ];
     }
 }

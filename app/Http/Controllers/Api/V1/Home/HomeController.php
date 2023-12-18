@@ -14,7 +14,9 @@ class HomeController extends Controller
     {
         return $this->executeCrudOperation(function () use ($action) {
             $models = $action->execute();
-            return response()->json($models);
+            return $this->respondWithCollection(
+               $models
+            );
         }, 'index');
     }
 }

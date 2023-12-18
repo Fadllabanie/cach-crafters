@@ -22,10 +22,10 @@ class UpdateTransactionRequest extends FormRequest
   public function rules()
   {
     return array(
-      'source_id' => 'required',
-      'type' => 'required',
-      'amount' => 'required',
-      'transaction_date' => 'required|date',
+      'source_id' => 'required|exists:sources,id',
+      'type' => 'required|in:income,expense',
+      'amount' => 'required|numeric',
+      'transactionDate' => 'required|date|date_format:Y-m-d h:i:s',
     );
   }
 }

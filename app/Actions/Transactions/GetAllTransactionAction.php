@@ -12,6 +12,6 @@ class GetAllTransactionAction
             ->mine()
             ->OfMonth($request->month)
             ->orderByDESC('id')
-            ->paginate();
+            ->get();
     }
 }

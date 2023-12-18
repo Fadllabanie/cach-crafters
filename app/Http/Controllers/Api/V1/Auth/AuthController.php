@@ -20,7 +20,7 @@ class AuthController extends Controller
     {
         return $this->executeCrudOperation(function () use ($request, $action) {
             $model = $action->execute($request->validated());
-            return response()->json(UserResource::make($model), 201);
+            return $this->respondCreated(UserResource::make($model));
         }, 'register');
     }
 
@@ -28,9 +28,9 @@ class AuthController extends Controller
     {
         return $this->executeCrudOperation(function () use ($request, $action) {
             $model = $action->execute($request->validated());
-            return response()->json([
+            return $this->respondWithCollection([
                 'user' => UserResource::make($model),
-            ], 201);
+            ]);
         }, 'login');
     }
 }

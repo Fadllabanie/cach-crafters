@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
+use App\Casts\Icon;
 use App\Services\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Source extends Model
 {
-    use HasFactory,Translatable;
-    
+    use HasFactory, Translatable;
+
 
     public function getFillable()
     {
@@ -17,6 +18,7 @@ class Source extends Model
             'name_ar',
             'name_en',
             'icon',
+            'color',
         ];
     }
 
@@ -26,10 +28,15 @@ class Source extends Model
             'name_ar' => 'string',
             'name_en' => 'string',
             'icon' => 'string',
+            'color' => 'string',
         ];
     }
 
     protected $translatedAttributes = [
         'name'
+    ];
+
+    protected $casts = [
+        'icon' => Icon::class,
     ];
 }

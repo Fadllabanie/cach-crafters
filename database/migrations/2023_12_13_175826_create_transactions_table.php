@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('source_id')->index();
             $table->enum('type', ['income', 'expense'])->index(); // Transaction type
             $table->decimal('amount', 10, 2);
-            $table->datetime('transaction_date')->index(); // Store as a string or change to a timestamp
+            $table->datetime('transactionDate')->index(); // Store as a string or change to a timestamp
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

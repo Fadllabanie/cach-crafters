@@ -45,10 +45,13 @@ Route::prefix('v1')->group(function () {
         Route::get('home', [HomeController::class, 'index'])->name('home');
         // Route::get('get-sources', [GeneralController::class, 'getSource'])->name('home.get-source');
         Route::apiResources(['transactions' => TransactionController::class]);
-        Route::get('statistics', [TransactionStatisticController::class, 'index'])->name('statistics');
+        Route::get('statistics', [TransactionStatisticController::class, 'index'])->name('statistics.home');
+        Route::get('monthly-expense-stats', [TransactionStatisticController::class, 'getMonthlyExpenseStats'])->name('statistics.monthly-expense-stats');
 
-        Route::get('categories', [CategoryController::class, 'index']);
-        Route::get('sources', [SourceController::class, 'index']);
-        Route::get('currencies', [GeneralController::class, 'getCurrency']);
+        // Route::get('categories', [CategoryController::class, 'index']);
+        // Route::get('sources', [SourceController::class, 'index']);
+
+        Route::get('sources', [GeneralController::class, 'getSource'])->name('home.get-source');
+        Route::get('currencies', [GeneralController::class, 'getCurrency'])->name('home.get-currency');
     });
 });
