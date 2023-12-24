@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('budgets', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->index();
             $table->unsignedBigInteger('source_id')->index();
-            $table->enum('type', ['income', 'expense'])->index(); // Transaction type
+            $table->string('name');
             $table->decimal('amount', 10, 2);
-            $table->datetime('transactionDate')->index(); // Store as a string or change to a timestamp
+            $table->enum('period', ['weekly','monthly','yearly','one-time']);
+            $table->boolean('is_budget_overspend')->default(false);
+            $table->boolean('is_exceeded')->default(false);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('budgets');
     }
 };

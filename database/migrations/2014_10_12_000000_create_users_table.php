@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('avatar')->nullable();
             $table->string('phone')->nullable();
             $table->string('currency', 5)->nullable();
-            $table->enum('gender', ['male', 'female'])->index();
+            $table->enum('gender', ['male', 'female'])->nullable()->index();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\Auth\SocialiteAuthController;
+use App\Http\Controllers\Api\V1\Budgets\BudgetController;
 use App\Http\Controllers\Api\V1\Expenses\ExpenseController;
 use App\Http\Controllers\Api\V1\General\CategoryController;
 use App\Http\Controllers\Api\V1\General\SourceController;
@@ -45,6 +46,7 @@ Route::prefix('v1')->group(function () {
         Route::get('home', [HomeController::class, 'index'])->name('home');
         // Route::get('get-sources', [GeneralController::class, 'getSource'])->name('home.get-source');
         Route::apiResources(['transactions' => TransactionController::class]);
+        Route::apiResources(['budgets' => BudgetController::class]);
         Route::get('statistics', [TransactionStatisticController::class, 'index'])->name('statistics.home');
         Route::get('monthly-expense-stats', [TransactionStatisticController::class, 'getMonthlyExpenseStats'])->name('statistics.monthly-expense-stats');
 

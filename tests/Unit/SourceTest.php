@@ -15,10 +15,11 @@ class SourceTest extends TestCase
     {
         $data = Source::factory()->make()->toArray();
         $model = Source::create($data);
-
+       
         $this->assertDatabaseHas('sources', $data);
 
         $model = Source::find($model->id);
+       
         $this->assertNotNull($model);
         $this->assertEquals($data['name_en'], $model->name_en);
         $this->assertEquals($data['name_ar'], $model->name_ar);

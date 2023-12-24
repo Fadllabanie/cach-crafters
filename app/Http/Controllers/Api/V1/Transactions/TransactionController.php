@@ -24,7 +24,7 @@ class TransactionController extends Controller
         return $this->executeCrudOperation(function () use ($action, $request) {
             $models = $action->execute($request);
             return $this->respondWithCollection(TransactionResource::collection($models));
-        }, 'index');
+        }, 'TransactionController-index');
     }
 
     public function store(StoreTransactionRequest $request, CreateTransactionAction $action)
@@ -32,7 +32,7 @@ class TransactionController extends Controller
         return $this->executeCrudOperation(function () use ($request, $action) {
             $model = $action->execute($request->validated());
             return $this->respondCreated(TransactionResource::make($model));
-        }, 'store');
+        }, 'TransactionController-store');
     }
 
     public function show($id, GetTransactionAction $action)
@@ -43,7 +43,7 @@ class TransactionController extends Controller
                 return $this->errorNotFound('Not Found');
             }
             return $this->respondWithItem(TransactionResource::make($model));
-        }, 'show');
+        }, 'TransactionController-show');
     }
 
     public function update(UpdateTransactionRequest $request, $id, UpdateTransactionAction $action)
@@ -52,7 +52,7 @@ class TransactionController extends Controller
             $model = Transaction::findOrFail($id);
             $action->execute($model, $request->validated());
             return $this->respondCreated(TransactionResource::make($model));
-        }, 'update');
+        }, 'TransactionController-update');
     }
 
     public function destroy($id, DeleteTransactionAction $action)
@@ -61,6 +61,6 @@ class TransactionController extends Controller
             $model = Transaction::findOrFail($id);
             $action->execute($model);
             return $this->successStatus();
-        }, 'destroy');
+        }, 'TransactionController-destroy');
     }
 }
