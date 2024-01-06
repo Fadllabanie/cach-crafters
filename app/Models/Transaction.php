@@ -205,7 +205,7 @@ class Transaction extends Model
             ->whereYear('transactionDate', '=', date('Y', strtotime($month)))
             ->sum('amount');
 
-            // Now, get the total expenses per source for the month
+        // Now, get the total expenses per source for the month
         $expensesBySource = Transaction::with('source')
             ->where('type', 'expense')
             ->where('user_id', $userId)
@@ -214,7 +214,7 @@ class Transaction extends Model
             ->select('source_id', DB::raw('SUM(amount) as total'))
             ->groupBy('source_id')
             ->get();
-           
+
 
         // Calculate the percentage for each source
         $expensesWithPercentages = $expensesBySource->map(function ($expense) use ($totalExpenses) {

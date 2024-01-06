@@ -14,10 +14,10 @@ class TransactionFactory extends Factory
     public function definition()
     {
         return [
-            // 'user_id' => 23,
-            // 'source_id' => $this->faker->randomElement([1]),
-            'user_id' => \App\Models\User::factory(),
-            'source_id' => \App\Models\Source::factory(),
+            'user_id' => $this->faker->numberBetween(1,5),
+            'source_id' => $this->faker->numberBetween(1,20),
+            // 'user_id' => \App\Models\User::factory(),
+            // 'source_id' => \App\Models\Source::factory(),
             'type' => $this->faker->randomElement(['income', 'expense']),
             'amount' => $this->faker->randomFloat(2, 0, 1000),
             'transactionDate' => Carbon::now()->subDays(rand(0, 365)),

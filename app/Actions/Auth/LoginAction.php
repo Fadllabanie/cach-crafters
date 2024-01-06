@@ -19,6 +19,12 @@ class LoginAction
             ]);
         }
 
+        $token = Auth::user()->createToken('default-login');
+
+        Auth::user()->update([
+            'remember_token' => $token->plainTextToken
+        ]);
+
         return Auth::user();
     }
 }

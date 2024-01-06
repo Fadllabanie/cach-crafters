@@ -14,6 +14,11 @@ class SourceSeeder extends Seeder
      */
     public function run(): void
     {
+        $data = Source::whereId(1)->first();
+        if ($data) {
+            return;
+        }
+
         $iconFiles = File::files(public_path('icons'));
 
         foreach ($iconFiles as $file) {
