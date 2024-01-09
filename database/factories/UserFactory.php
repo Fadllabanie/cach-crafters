@@ -16,7 +16,7 @@ class UserFactory extends Factory
         return [
             'name' => $this->faker->word,
             'email' => $this->faker->safeEmail,
-            'password' => Hash::make('123456789'),
+            'password' => Hash::make('12345678'),
             'email_verified_at' =>  \Carbon\Carbon::now()->format('Y-m-d H:i:s'),
             'avatar' => $this->faker->word,
             'gender' => $this->faker->randomElement(['male', 'female']),

@@ -10,6 +10,7 @@ use App\Actions\Budgets\DeleteBudgetAction;
 use App\Actions\Budgets\GetAllBudgetAction;
 use App\Actions\Budgets\GetBudgetAction;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\Budgets\BudgetDetailsResource;
 use App\Http\Resources\Api\Budgets\BudgetResource;
 use App\Models\Budget;
 use App\Traits\HandlesErrors;
@@ -37,12 +38,11 @@ class BudgetController extends Controller
     public function show($id, GetBudgetAction $action)
     {
         return $this->executeCrudOperation(function () use ($id, $action) {
-            $model = $action->execute($id);
-            if (!$model) {
+            $data = $action->execute($id);
+            if (!$data) {
                 return $this->errorNotFound('Not Found');
             }
-
-            return $this->respondWithItem(BudgetResource::make($model));
+            return $this->respondWithItem(BudgetDetailsResource::make($data));
         }, 'BudgetController-show');
     }
 

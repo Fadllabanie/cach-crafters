@@ -8,7 +8,6 @@ class GetCurrencyAction
 {
     public function execute()
     {
-
         return DB::table('currencies')->get();
     }
 }
