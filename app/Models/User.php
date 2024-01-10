@@ -57,6 +57,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(AuthProvider::class, 'user_id', 'id');
     }
+    
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'user_id', 'id');
+    }
 
     public function badges()
     {

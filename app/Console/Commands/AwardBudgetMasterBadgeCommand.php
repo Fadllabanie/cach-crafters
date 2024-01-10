@@ -8,14 +8,14 @@ use App\Services\Badges\BadgeService;
 use App\Services\Badges\BudgetMasterBadge;
 use Illuminate\Console\Command;
 
-class AwardBudgetMasterBadge extends Command
+class AwardBudgetMasterBadgeCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:award-budget-master-badge';
+    protected $signature = 'badge:budget-master-badge';
 
     /**
      * The console command description.

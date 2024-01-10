@@ -45,12 +45,9 @@ class BudgetMasterBadge implements BadgeInterface
             ->whereYear('created_at', $month->year)
             ->whereMonth('created_at', $month->month)
             ->sum('amount');
-            
-        dd($monthlySpending);
+
         // Check if the spending did not exceed the budget
         return $monthlySpending <= $monthlyBudget;
 
-
-        return true; // Placeholder
     }
 }

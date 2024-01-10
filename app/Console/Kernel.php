@@ -13,7 +13,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
 
-        $schedule->command('award:budget-master-badge')->monthlyOn(28, '23:55');
+        $schedule->command('badge:budget-master-badge')->monthlyOn(28, '23:55');
+        $schedule->command('badge:check-savings-streak')->monthlyOn(30, '23:00');
+        $schedule->command('badge:smart-spender')->monthlyOn(1, '01:00');
 
         // $schedule->command('inspire')->hourly();
     }

@@ -18,6 +18,6 @@ class DatabaseSeeder extends Seeder
         User::factory(10)->create();
         $this->call(SourceSeeder::class);
         $this->call(CurrencySeeder::class);
-        Transaction::factory(1000)->create();
+        Transaction::factory(10000)->create();
     }
 }
