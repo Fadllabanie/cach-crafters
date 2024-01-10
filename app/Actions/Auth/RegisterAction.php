@@ -3,6 +3,8 @@
 namespace App\Actions\Auth;
 
 use App\Models\User;
+use App\Services\Badges\BadgeService;
+use App\Services\Badges\StarterBadge;
 
 class RegisterAction
 {
@@ -22,6 +24,8 @@ class RegisterAction
         $user->update([
             'remember_token' => $token->plainTextToken
         ]);
+
+        BadgeService::awardBadge($user, new StarterBadge());
 
         return  $user;
     }

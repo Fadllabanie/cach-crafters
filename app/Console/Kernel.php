@@ -12,6 +12,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
+
+        $schedule->command('award:budget-master-badge')->monthlyOn(28, '23:55');
+
         // $schedule->command('inspire')->hourly();
     }
 

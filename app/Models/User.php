@@ -57,4 +57,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(AuthProvider::class, 'user_id', 'id');
     }
+
+    public function badges()
+    {
+        return $this->belongsToMany(Badge::class)->withTimestamps();
+    }
 }

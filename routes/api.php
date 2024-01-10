@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\Auth\SocialiteAuthController;
+use App\Http\Controllers\Api\V1\Badges\BadgeController;
 use App\Http\Controllers\Api\V1\Budgets\BudgetController;
 use App\Http\Controllers\Api\V1\Expenses\ExpenseController;
 use App\Http\Controllers\Api\V1\General\CategoryController;
@@ -12,6 +13,8 @@ use App\Http\Controllers\Api\V1\Home\HomeController;
 use App\Http\Controllers\Api\V1\Transactions\TransactionController;
 use App\Http\Controllers\Api\V1\Transactions\TransactionStatisticController;
 use App\Http\Controllers\UserController;
+use App\Services\Badges\BadgeService;
+use App\Services\Badges\BudgetMasterBadge;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +30,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('v1')->group(function () {
+    
+   
 
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
@@ -38,6 +43,10 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
 
+        Route::get('/test', function (BadgeService $badgeService) {
+            
+            $badgeService->awardBadge(auth()->user(), new BudgetMasterBadge());
+        });
 
         Route::apiResources(['users' => UserController::class]);
         Route::apiResources(['incomes' => IncomeController::class]);
@@ -49,6 +58,9 @@ Route::prefix('v1')->group(function () {
         Route::apiResources(['budgets' => BudgetController::class]);
         Route::get('statistics', [TransactionStatisticController::class, 'index'])->name('statistics.home');
         Route::get('monthly-expense-stats', [TransactionStatisticController::class, 'getMonthlyExpenseStats'])->name('statistics.monthly-expense-stats');
+        
+        
+        Route::get('my-badges', [BadgeController::class, 'index'])->name('badges.list-all');
 
         // Route::get('categories', [CategoryController::class, 'index']);
         // Route::get('sources', [SourceController::class, 'index']);
